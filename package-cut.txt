@@ -1,0 +1,7 @@
+// "options": {
+    //     "allowedHosts": [
+    //         "localhost",
+    //         ".localhost"
+    //     ],
+    //     "proxy": "http://localhost:9999"
+    // },
