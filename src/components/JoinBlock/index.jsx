@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import socket from '../../socket'
+import socket from "../../socket";
 import cl from "./JoinBlock.module.scss";
 import axios from "axios";
 
@@ -17,8 +17,13 @@ export default function JoinBlock({ onLogin }) {
             userName,
         };
         setLoading(true);
-        await axios.post("/rooms", obj);
+        try {
+            await axios.post("https://wkjnb4kz-9999.euw.devtunnels.ms/rooms", obj);
+        } catch (error) {
+            console.log(error);
+        }
         onLogin(obj);
+        
     };
 
     return (

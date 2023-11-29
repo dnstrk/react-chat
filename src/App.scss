@@ -1,3 +1,7 @@
+.App {
+    height: 100vh;
+}
+
 .wrapper {
     display: flex;
     flex-direction: column;
@@ -24,12 +28,23 @@
         font-size: 20px;
         font-weight: bold;
 
-        transition: background-color .2s linear, transform .02s linear;
+        transition: background-color 0.2s linear, transform 0.02s linear;
         &:hover {
-          background-color: rgba(92, 189, 83, 0.781);
+            background-color: rgba(92, 189, 83, 0.781);
         }
         &:active {
-          transform: scale(98%);
+            transform: scale(98%);
         }
     }
+}
+
+ul,
+li,
+p {
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+}
+li {
+    all: unset;
 }

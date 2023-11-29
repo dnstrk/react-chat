@@ -5,3 +5,7 @@
     //     ],
     //     "proxy": "http://localhost:9999"
     // },
+
+
+    https://wkjnb4kz-3000.euw.devtunnels.ms/            -           клиент
+    https://wkjnb4kz-9999.euw.devtunnels.ms/            -           сервер
