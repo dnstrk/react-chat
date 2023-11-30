@@ -76,7 +76,7 @@ io.on("connection", (socket) => {
         });
     });
 
-    console.log("user connected", socket.id);
+    // console.log("user connected", socket.id);
 });
 
 server.listen(9999, (err) => {

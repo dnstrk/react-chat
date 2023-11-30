@@ -47,8 +47,8 @@ export default function Chat({
     const onClearChat = async () => {
         socket.emit("ROOM:CLEAR_CHAT", { roomId });
         const { data } = await axios.get(
-            // `https://wkjnb4kz-9999.euw.devtunnels.ms/rooms/${roomId}`
-            `http://localhost:9999/rooms/${roomId}`
+            `https://wkjnb4kz-9999.euw.devtunnels.ms/rooms/${roomId}`
+            // `http://localhost:9999/rooms/${roomId}`
         );
         dispatch({ type: "SET_DATA", payload: data });
     };
@@ -68,6 +68,7 @@ export default function Chat({
                             <li key={index}>{name}</li>
                         ))}
                     </ul>
+                    
                 </div>
                 <div className={cl.chatMessages}>
                     <div ref={messageRef} className={cl.messages}>
