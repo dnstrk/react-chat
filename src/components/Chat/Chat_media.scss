@@ -1,8 +1,0 @@
-$breakpoint-small: 480px;
-$breakpoint-default: 1920px;
-
-@media only screen and (max-width: $breakpoint-small) {
-    .container {
-        max-width: 100%;
-    }
-}

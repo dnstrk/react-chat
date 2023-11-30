@@ -3,7 +3,6 @@ import cl from "./Chat.module.scss";
 import socket from "../../socket";
 import axios from "axios";
 
-
 export default function Chat({
     users,
     messages,
@@ -41,6 +40,8 @@ export default function Chat({
             });
             setMessageVal("");
         } else return;
+
+        
     };
 
     const onClearChat = async () => {
@@ -61,7 +62,7 @@ export default function Chat({
             <div className={cl.chat}>
                 <div className={cl.chatUsers}>
                     <b>Комната: {roomId}</b>
-                    <b>Онлайн ({users.length}):</b>
+                    <b>Онлайн: ({users.length})</b>
                     <ul>
                         {users.map((name, index) => (
                             <li key={index}>{name}</li>
@@ -73,18 +74,7 @@ export default function Chat({
                         {messages.length > 0 ? (
                             messages.map((message, index) => (
                                 <div key={index} className={cl.message}>
-                                    <p>
-                                        {message.text
-                                            .split("\n")
-                                            .map((str, index) => (
-                                                <p key={index}>
-                                                    {str}
-                                                    {message.text.includes("\n")
-                                                        ? `\n`
-                                                        : null}
-                                                </p>
-                                            ))}
-                                    </p>
+                                    <p>{message.text}</p>
                                     <span>{message.userName}</span>
                                 </div>
                             ))
@@ -113,7 +103,7 @@ export default function Chat({
                         <button
                             type="button"
                             onClick={onClearChat}
-                            className={cl.btn}
+                            className={`${cl.btn} ${cl.btnClear}`}
                         >
                             Очистить
                         </button>
@@ -121,69 +111,5 @@ export default function Chat({
                 </div>
             </div>
         </div>
-        // <div className="container">
-        //     <div className="chat">
-        //         <div className="chatUsers">
-        //             <b>Комната: {roomId}</b>
-        //             <b>Онлайн ({users.length}):</b>
-        //             <ul>
-        //                 {users.map((name, index) => (
-        //                     <li key={index}>{name}</li>
-        //                 ))}
-        //             </ul>
-        //         </div>
-        //         <div className="chatMessages">
-        //             <div ref={messageRef} className="messages">
-        //                 {messages.length > 0 ? (
-        //                     messages.map((message, index) => (
-        //                         <div key={index} className="message">
-        //                             <p>
-        //                                 {message.text
-        //                                     .split("\n")
-        //                                     .map((str, index) => (
-        //                                         <p key={index}>
-        //                                             {str}
-        //                                             {message.text.includes("\n")
-        //                                                 ? `\n`
-        //                                                 : null}
-        //                                         </p>
-        //                                     ))}
-        //                             </p>
-        //                             <span>{message.userName}</span>
-        //                         </div>
-        //                     ))
-        //                 ) : (
-        //                     <div className="message">
-        //                         <p>No messages</p>
-        //                     </div>
-        //                 )}
-        //             </div>
-        //             <form>
-        //                 <textarea
-        //                     ref={textareaRef}
-        //                     onKeyDown={handleTextareaSubmit}
-        //                     value={messageVal}
-        //                     onChange={(e) => setMessageVal(e.target.value)}
-        //                     rows="3"
-        //                     autoFocus
-        //                 ></textarea>
-        //                 <button
-        //                     type="button"
-        //                     onClick={onSendMessage}
-        //                     className="btn"
-        //                 >
-        //                     Отправить
-        //                 </button>
-        //                 <button
-        //                     type="button"
-        //                     onClick={onClearChat}
-        //                     className="btn"
-        //                 >
-        //                     Очистить
-        //                 </button>
-        //             </form>
-        //         </div>
-        //     </div>
-        // </div>
     );
 }
