@@ -3,6 +3,7 @@ import cl from "./Chat.module.scss";
 import socket from "../../socket";
 import axios from "axios";
 
+
 export default function Chat({
     users,
     messages,
@@ -13,9 +14,22 @@ export default function Chat({
 }) {
     const [messageVal, setMessageVal] = useState("");
     const messageRef = useRef(null);
+    const textareaRef = useRef();
 
-    const onSendMessage = () => {
-        if (messageVal.length > 0) {
+    const handleTextareaSubmit = (event) => {
+        if (event.key == "Enter") {
+            return window.event.shiftKey
+                ? (textareaRef.value = `\n`)
+                : (onSendMessage(), event.preventDefault());
+        }
+    };
+
+    const onSendMessage = (event) => {
+        if (
+            !!messageVal &&
+            !messageVal.match(/^[ ]+$/) &&
+            !messageVal.match(/^[\n]+$/)
+        ) {
             socket.emit("ROOM:NEW_MESSAGE", {
                 userName,
                 roomId,
@@ -32,7 +46,8 @@ export default function Chat({
     const onClearChat = async () => {
         socket.emit("ROOM:CLEAR_CHAT", { roomId });
         const { data } = await axios.get(
-            `https://wkjnb4kz-9999.euw.devtunnels.ms/rooms/${roomId}`
+            // `https://wkjnb4kz-9999.euw.devtunnels.ms/rooms/${roomId}`
+            `http://localhost:9999/rooms/${roomId}`
         );
         dispatch({ type: "SET_DATA", payload: data });
     };
@@ -58,7 +73,18 @@ export default function Chat({
                         {messages.length > 0 ? (
                             messages.map((message, index) => (
                                 <div key={index} className={cl.message}>
-                                    <p>{message.text}</p>
+                                    <p>
+                                        {message.text
+                                            .split("\n")
+                                            .map((str, index) => (
+                                                <p key={index}>
+                                                    {str}
+                                                    {message.text.includes("\n")
+                                                        ? `\n`
+                                                        : null}
+                                                </p>
+                                            ))}
+                                    </p>
                                     <span>{message.userName}</span>
                                 </div>
                             ))
@@ -70,9 +96,12 @@ export default function Chat({
                     </div>
                     <form>
                         <textarea
+                            ref={textareaRef}
+                            onKeyDown={handleTextareaSubmit}
                             value={messageVal}
                             onChange={(e) => setMessageVal(e.target.value)}
                             rows="3"
+                            autoFocus
                         ></textarea>
                         <button
                             type="button"
@@ -92,5 +121,69 @@ export default function Chat({
                 </div>
             </div>
         </div>
+        // <div className="container">
+        //     <div className="chat">
+        //         <div className="chatUsers">
+        //             <b>Комната: {roomId}</b>
+        //             <b>Онлайн ({users.length}):</b>
+        //             <ul>
+        //                 {users.map((name, index) => (
+        //                     <li key={index}>{name}</li>
+        //                 ))}
+        //             </ul>
+        //         </div>
+        //         <div className="chatMessages">
+        //             <div ref={messageRef} className="messages">
+        //                 {messages.length > 0 ? (
+        //                     messages.map((message, index) => (
+        //                         <div key={index} className="message">
+        //                             <p>
+        //                                 {message.text
+        //                                     .split("\n")
+        //                                     .map((str, index) => (
+        //                                         <p key={index}>
+        //                                             {str}
+        //                                             {message.text.includes("\n")
+        //                                                 ? `\n`
+        //                                                 : null}
+        //                                         </p>
+        //                                     ))}
+        //                             </p>
+        //                             <span>{message.userName}</span>
+        //                         </div>
+        //                     ))
+        //                 ) : (
+        //                     <div className="message">
+        //                         <p>No messages</p>
+        //                     </div>
+        //                 )}
+        //             </div>
+        //             <form>
+        //                 <textarea
+        //                     ref={textareaRef}
+        //                     onKeyDown={handleTextareaSubmit}
+        //                     value={messageVal}
+        //                     onChange={(e) => setMessageVal(e.target.value)}
+        //                     rows="3"
+        //                     autoFocus
+        //                 ></textarea>
+        //                 <button
+        //                     type="button"
+        //                     onClick={onSendMessage}
+        //                     className="btn"
+        //                 >
+        //                     Отправить
+        //                 </button>
+        //                 <button
+        //                     type="button"
+        //                     onClick={onClearChat}
+        //                     className="btn"
+        //                 >
+        //                     Очистить
+        //                 </button>
+        //             </form>
+        //         </div>
+        //     </div>
+        // </div>
     );
 }

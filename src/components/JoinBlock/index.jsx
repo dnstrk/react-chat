@@ -18,12 +18,16 @@ export default function JoinBlock({ onLogin }) {
         };
         setLoading(true);
         try {
-            await axios.post("https://wkjnb4kz-9999.euw.devtunnels.ms/rooms", obj);
+            // await axios.post("https://wkjnb4kz-9999.euw.devtunnels.ms/rooms",obj);
+            await axios.post("http://localhost:9999/rooms", obj);
         } catch (error) {
             console.log(error);
         }
         onLogin(obj);
-        
+    };
+
+    const handleEnter = (event) => {
+        return event.key == "Enter" ? onEnter() : null;
     };
 
     return (
@@ -35,6 +39,7 @@ export default function JoinBlock({ onLogin }) {
                 onChange={(e) => setRoomId(e.target.value)}
             />
             <input
+                onKeyDown={handleEnter}
                 type="text"
                 placeholder="Username"
                 value={userName}

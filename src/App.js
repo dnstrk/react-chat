@@ -19,7 +19,8 @@ function App() {
         dispatch({ type: "JOINED", payload: obj });
         socket.emit("ROOM:JOIN", obj);
         const { data } = await axios.get(
-            `https://wkjnb4kz-9999.euw.devtunnels.ms/rooms/${obj.roomId}`
+            // `https://wkjnb4kz-9999.euw.devtunnels.ms/rooms/${obj.roomId}`
+            `http://localhost:9999/rooms/${obj.roomId}`
         );
         dispatch({ type: "SET_DATA", payload: data });
     };
@@ -53,6 +54,11 @@ function App() {
                     dispatch={dispatch}
                 />
             )}
+            {/* <Chat
+                    {...state}
+                    onAddMessage={addMessage}
+                    dispatch={dispatch}
+                /> */}
         </div>
     );
 }
